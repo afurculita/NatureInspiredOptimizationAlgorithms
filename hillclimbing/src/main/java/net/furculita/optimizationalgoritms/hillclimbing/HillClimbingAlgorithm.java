@@ -13,22 +13,25 @@ public class HillClimbingAlgorithm extends Algorithm {
 
         Individual best = problem.potential();
         Mutator mutator = new BitBasedRepresentationFlipMutator();
+        int iterationsWithoutNewSolutions = 0;
 
         while (true) {
-            boolean newFound = false;
+            Individual mutated = mutator.mutate(best, problem);
+            mutated.setFitness(problem.fitness(mutated));
 
-            for (int i = 0; i < problem.getIterations(); i++) {
-                Individual mutated = mutator.mutate(best);
-                mutated.setFitness(problem.fitness(mutated));
+            if (mutated.betterThan(best)) {
+                history.add(mutated);
+                best = mutated;
+                iterationsWithoutNewSolutions = 0;
 
-                if (mutated.betterThan(best)) {
-                    history.add(mutated);
-                    best = mutated;
-                    newFound = true;
+                if (problem.optimumAchieved(best.getFitness())) {
+                    break;
                 }
+            } else {
+                iterationsWithoutNewSolutions++;
             }
 
-            if (!newFound) {
+            if (iterationsWithoutNewSolutions == 1000) {
                 break;
             }
         }

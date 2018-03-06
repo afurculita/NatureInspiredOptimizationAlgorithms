@@ -4,7 +4,7 @@ import net.furculita.optimizationalgoritms.core.individual.Individual;
 
 public class RastriginProblem extends Problem {
     public RastriginProblem(int dimension) {
-        super(dimension, -5.12, 5.12);
+        super(dimension, -5.12, 5.12, 0.0);
     }
 
     @Override

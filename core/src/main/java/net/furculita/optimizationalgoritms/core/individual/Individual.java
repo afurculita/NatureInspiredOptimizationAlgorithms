@@ -43,19 +43,16 @@ public class Individual implements Comparable<Individual> {
 
     @Override
     public int compareTo(Individual o) {
-        return (this.fitness <= o.fitness) ? 1 : -1;
+        return this.betterThan(o) ? 1 : -1;
     }
 
     public boolean betterThan(Individual o) {
-        return this.compareTo(o) > 0;
+        return this.fitness < o.fitness;
     }
 
     @Override
     public String toString() {
-        return "Individual{" +
-                "genome=" + genome +
-                ", fitness=" + fitness +
-                '}';
+        return Double.toString(fitness);
     }
 
     @Override

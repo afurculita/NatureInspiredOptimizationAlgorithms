@@ -8,11 +8,19 @@ public abstract class Problem {
     protected int dimension;
     private double rangeMin;
     private double rangeMax;
+    private Double min;
 
     public Problem(int dimension, double rangeMin, double rangeMax) {
         this.dimension = dimension;
         this.rangeMin = rangeMin;
         this.rangeMax = rangeMax;
+    }
+
+    public Problem(int dimension, double rangeMin, double rangeMax, double min) {
+        this.dimension = dimension;
+        this.rangeMin = rangeMin;
+        this.rangeMax = rangeMax;
+        this.min = min;
     }
 
     public Individual potential() {
@@ -23,13 +31,13 @@ public abstract class Problem {
         return potential;
     }
 
-    public abstract double fitness(Individual subject);
-
-    public Individual neighbour() {
-        return null;
+    public boolean isValid(double gene) {
+        return gene <= this.rangeMax && gene >= this.rangeMin;
     }
 
-    public int getIterations() {
-        return 100 * this.dimension;
+    public abstract double fitness(Individual subject);
+
+    public boolean optimumAchieved(Double d) {
+        return min != null && d.equals(min);
     }
 }

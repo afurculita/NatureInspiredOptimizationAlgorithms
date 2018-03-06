@@ -4,7 +4,7 @@ import net.furculita.optimizationalgoritms.core.individual.Individual;
 
 public class GriewangkProblem extends Problem {
     public GriewangkProblem(int dimension) {
-        super(dimension, -600, 600);
+        super(dimension, -600, 600, 0.0);
     }
 
     @Override
