@@ -12,8 +12,8 @@ public class SixHumpCamelBackProblem extends Problem {
 
     @Override
     public double fitness(Individual subject) {
-        double x1 = subject.getGenome().get(0);
-        double x2 = subject.getGenome().get(1);
+        double x1 = subject.getChromosomes().get(0).asDecimal();
+        double x2 = subject.getChromosomes().get(1).asDecimal();
 
         return (4 - 2.1 * Math.pow(x1, 2) + Math.pow(x1, 4) / 3) * Math.pow(x1, 2)
                 + x1 * x2

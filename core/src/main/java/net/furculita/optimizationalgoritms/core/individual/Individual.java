@@ -3,34 +3,32 @@ package net.furculita.optimizationalgoritms.core.individual;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.DoubleStream;
+import java.util.stream.Collectors;
 
 public class Individual implements Comparable<Individual> {
-    private List<Double> genome = new ArrayList<>();
+    private static final int CHROMOSOME_SIZE = 5;
+
+    private List<Chromosome> chromosomes = new ArrayList<>();
     private double fitness;
 
-    public Individual(List<Double> doubles) {
-        this.setGenome(doubles);
+    public Individual(List<Chromosome> doubles) {
+        this.setChromosomes(doubles);
     }
 
     public Individual(Individual individual) {
-        this.genome = individual.genome;
+        chromosomes.clear();
+
+        for (Chromosome c : individual.getChromosomes()) {
+            chromosomes.add(Chromosome.clone(c));
+        }
     }
 
-    public List<Double> getGenome() {
-        return genome;
+    public List<Chromosome> getChromosomes() {
+        return chromosomes;
     }
 
-    public void addGene(Double gene) {
-        this.genome.add(gene);
-    }
-
-    public void setGenome(List<Double> genome) {
-        this.genome = genome;
-    }
-
-    public void setGenome(DoubleStream doubles) {
-        doubles.forEach(this::addGene);
+    public void setChromosomes(List<Chromosome> chromosomes) {
+        this.chromosomes = chromosomes;
     }
 
     public double getFitness() {
@@ -52,7 +50,13 @@ public class Individual implements Comparable<Individual> {
 
     @Override
     public String toString() {
-        return "F" + genome + "=" + Double.toString(fitness);
+        return "F("
+                + chromosomes
+                .stream()
+                .map((Chromosome c) -> Double.toString(c.asDecimal()))
+                .collect(Collectors.joining(", "))
+                + ")="
+                + Double.toString(fitness);
     }
 
     @Override
@@ -66,5 +70,15 @@ public class Individual implements Comparable<Individual> {
     @Override
     public int hashCode() {
         return Objects.hash(fitness);
+    }
+
+    public static Individual generateNewIndividual(int dimension) {
+        List<Chromosome> chromosomes = new ArrayList<>();
+
+        for (int i = 0; i < dimension; i++) {
+            chromosomes.add(Chromosome.generateNewChromosome(CHROMOSOME_SIZE));
+        }
+
+        return new Individual(chromosomes);
     }
 }

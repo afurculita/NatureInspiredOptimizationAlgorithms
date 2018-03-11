@@ -1,5 +1,6 @@
 package net.furculita.optimizationalgoritms.core.algorithm.mutator;
 
+import net.furculita.optimizationalgoritms.core.individual.Chromosome;
 import net.furculita.optimizationalgoritms.core.individual.Individual;
 import net.furculita.optimizationalgoritms.core.problem.Problem;
 
@@ -11,39 +12,18 @@ public class BitBasedRepresentationFlipMutator extends Mutator {
     @Override
     public Individual mutate(Individual parent, Problem problem) {
         Individual mutated = new Individual(parent);
-        List<Double> genome = mutated.getGenome();
+        List<Chromosome> genome = mutated.getChromosomes();
 
-        int randomGeneIndex = new Random().nextInt(genome.size());
-        double parentGene = genome.get(randomGeneIndex);
-        double mutatedGene;
+        Random randomGenerator = new Random();
 
-        mutatedGene = mutateGene(parentGene);
+        int randomGeneIndex = randomGenerator.nextInt(genome.size());
+
+        Chromosome mutatedGene = genome.get(randomGeneIndex);
+        mutatedGene.flip(randomGenerator.nextInt(mutatedGene.getInitialBitCount()));
 
         genome.set(randomGeneIndex, mutatedGene);
-        mutated.setGenome(genome);
+        mutated.setChromosomes(genome);
 
         return mutated;
-    }
-
-    private double mutateGene(Double randomGene) {
-        String binary = Long.toBinaryString(Double.doubleToRawLongBits(randomGene));
-
-        binary = flipRandomBit(binary);
-
-        return Double.longBitsToDouble(parseBinary(binary));
-    }
-
-    private static long parseBinary(String s) {
-        return new BigInteger(s, 2).longValue();
-    }
-
-    private static String flipRandomBit(String bits) {
-        StringBuilder builder = new StringBuilder(bits);
-
-        int bitToFlip = new Random().nextInt(bits.length());
-
-        builder.setCharAt(bitToFlip, (char) (bits.charAt(bitToFlip) ^ 1));
-
-        return builder.toString();
     }
 }

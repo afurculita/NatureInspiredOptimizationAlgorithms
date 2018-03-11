@@ -31,13 +31,7 @@ public abstract class Problem {
     }
 
     public Individual potential() {
-        List<Double> randoms = new ArrayList<>(this.dimension);
-
-        for (int i = 0; i < this.dimension; i++) {
-            randoms.add(i, ranges.get(i).randomBetweenBounds());
-        }
-
-        Individual potential = new Individual(randoms);
+        Individual potential = Individual.generateNewIndividual(this.dimension);
 
         potential.setFitness(this.fitness(potential));
 
