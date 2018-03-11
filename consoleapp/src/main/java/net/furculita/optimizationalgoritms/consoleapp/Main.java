@@ -5,6 +5,7 @@ import net.furculita.optimizationalgoritms.core.Solver;
 import net.furculita.optimizationalgoritms.core.problem.GriewangkProblem;
 import net.furculita.optimizationalgoritms.core.problem.RastriginProblem;
 import net.furculita.optimizationalgoritms.core.problem.RosenbrockValleyProblem;
+import net.furculita.optimizationalgoritms.core.problem.SixHumpCamelBackProblem;
 import net.furculita.optimizationalgoritms.hillclimbing.HillClimbingAlgorithm;
 
 public class Main {
@@ -14,17 +15,22 @@ public class Main {
 
         System.out.println("-----------------------------------------------");
         System.out.println("RastriginProblem");
-        history = solver.solve(new RastriginProblem(30), new HillClimbingAlgorithm());
+        history = solver.solve(new RastriginProblem(3), new HillClimbingAlgorithm());
         System.out.println(history);
 
         System.out.println("-----------------------------------------------");
         System.out.println("GriewangkProblem");
-        history = solver.solve(new GriewangkProblem(30), new HillClimbingAlgorithm());
+        history = solver.solve(new GriewangkProblem(3), new HillClimbingAlgorithm());
         System.out.println(history);
 
         System.out.println("-----------------------------------------------");
         System.out.println("RosenbrockValleyProblem");
-        history = solver.solve(new RosenbrockValleyProblem(30), new HillClimbingAlgorithm());
+        history = solver.solve(new RosenbrockValleyProblem(3), new HillClimbingAlgorithm());
+        System.out.println(history);
+
+        System.out.println("-----------------------------------------------");
+        System.out.println("SixHumpCamelBackProblem");
+        history = solver.solve(new SixHumpCamelBackProblem(), new HillClimbingAlgorithm());
         System.out.println(history);
     }
 }

@@ -17,9 +17,7 @@ public class BitBasedRepresentationFlipMutator extends Mutator {
         double parentGene = genome.get(randomGeneIndex);
         double mutatedGene;
 
-        do {
-            mutatedGene = mutateGene(parentGene);
-        } while (!problem.isValid(mutatedGene));
+        mutatedGene = mutateGene(parentGene);
 
         genome.set(randomGeneIndex, mutatedGene);
         mutated.setGenome(genome);

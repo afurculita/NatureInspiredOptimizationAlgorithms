@@ -13,6 +13,6 @@ public class History extends LinkedList<Individual> {
     @Override
     public String toString() {
         return "Best: " + this.getBest().toString()
-                + "\nIndividuals: " + Arrays.toString(this.toArray());
+                + "\nFitness history: \n" + Arrays.toString(this.toArray());
     }
 }

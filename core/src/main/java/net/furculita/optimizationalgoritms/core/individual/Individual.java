@@ -9,7 +9,7 @@ public class Individual implements Comparable<Individual> {
     private List<Double> genome = new ArrayList<>();
     private double fitness;
 
-    public Individual(DoubleStream doubles) {
+    public Individual(List<Double> doubles) {
         this.setGenome(doubles);
     }
 
@@ -52,7 +52,7 @@ public class Individual implements Comparable<Individual> {
 
     @Override
     public String toString() {
-        return Double.toString(fitness);
+        return "F" + genome + "=" + Double.toString(fitness);
     }
 
     @Override
