@@ -103,7 +103,7 @@ public class Individual implements Comparable<Individual> {
         int randomGeneIndex = randomGenerator.nextInt(genome.size());
 
         Chromosome mutatedGene = genome.get(randomGeneIndex);
-        mutatedGene.flip(randomGenerator.nextInt(mutatedGene.getInitialBitCount()));
+        mutatedGene.flip(randomGenerator.nextInt(mutatedGene.bitsNr()));
 
         genome.set(randomGeneIndex, mutatedGene);
         mutated.setChromosomes(genome);

@@ -45,7 +45,7 @@ public class AscentHillClimbing extends Algorithm {
         List<Chromosome> genome = individual.getChromosomes();
 
         for (int i = 0; i < genome.size(); i++) {
-            for (int j = 0; j < individual.getChromosomes().get(i).getInitialBitCount(); j++) {
+            for (int j = 0; j < individual.getChromosomes().get(i).bitsNr(); j++) {
 
                 Individual neighbour = new Individual(individual);
 
