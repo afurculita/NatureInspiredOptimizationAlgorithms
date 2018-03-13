@@ -1,6 +1,7 @@
 package net.furculita.optalgs.individual;
 
 import net.furculita.optalgs.problem.Problem;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,7 +47,7 @@ public class Individual implements Comparable<Individual> {
     }
 
     @Override
-    public int compareTo(Individual o) {
+    public int compareTo(@NotNull Individual o) {
         return this.betterThan(o) ? 1 : -1;
     }
 
@@ -56,9 +57,9 @@ public class Individual implements Comparable<Individual> {
 
     @Override
     public String toString() {
-        return "F("
+        return "f( "
                 + problem.solutionsToString(chromosomes)
-                + ")="
+                + " ) = "
                 + Double.toString(getFitness());
     }
 

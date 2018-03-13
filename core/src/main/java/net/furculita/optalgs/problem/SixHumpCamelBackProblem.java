@@ -33,6 +33,6 @@ public class SixHumpCamelBackProblem extends Problem {
 
     @Override
     public int chromosomeSize() {
-        return (int) Math.ceil(Math.log((3 - (-3)) * Math.pow(10, 0.01)));
+        return (int) Math.ceil(Math.log((3 - (-3)) * Math.pow(10, 0.00001)));
     }
 }
