@@ -5,6 +5,9 @@ import net.furculita.optalgs.individual.Individual;
 
 import java.util.List;
 
+/**
+ * https://www.sfu.ca/~ssurjano/camel6.html
+ */
 public class SixHumpCamelBackProblem extends Problem {
     public SixHumpCamelBackProblem() {
         super(2);
@@ -26,5 +29,10 @@ public class SixHumpCamelBackProblem extends Problem {
         double x2 = solution.get(1).asBoundedDecimal(-2, 2);
 
         return x1 + ", " + x2;
+    }
+
+    @Override
+    public int chromosomeSize() {
+        return (int) Math.ceil(Math.log((3 - (-3)) * Math.pow(10, 0.01)));
     }
 }

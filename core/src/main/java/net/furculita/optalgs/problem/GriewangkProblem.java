@@ -39,4 +39,9 @@ public class GriewangkProblem extends Problem {
                 .map((Chromosome c) -> Double.toString(c.asBoundedDecimal(MIN, MAX)))
                 .collect(Collectors.joining(", "));
     }
+
+    @Override
+    public int chromosomeSize() {
+        return (int) Math.ceil(Math.log((MAX - MIN) * Math.pow(10, 0.01)));
+    }
 }

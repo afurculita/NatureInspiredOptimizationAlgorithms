@@ -8,10 +8,7 @@ import java.util.Objects;
 import java.util.Random;
 
 public class Individual implements Comparable<Individual> {
-    private static final int CHROMOSOME_SIZE = 5;
-
     private List<Chromosome> chromosomes = new ArrayList<>();
-    private double fitness = Double.NaN;
     private Problem problem;
 
     public Individual(List<Chromosome> doubles, Problem problem) {
@@ -37,7 +34,7 @@ public class Individual implements Comparable<Individual> {
     }
 
     public int getChromosomeSize() {
-        return CHROMOSOME_SIZE;
+        return problem.chromosomeSize();
     }
 
     public void setChromosomes(List<Chromosome> chromosomes) {
@@ -45,11 +42,7 @@ public class Individual implements Comparable<Individual> {
     }
 
     public double getFitness() {
-        if (Double.isNaN(fitness)) {
-            fitness = problem.fitness(this);
-        }
-
-        return fitness;
+        return problem.fitness(this);
     }
 
     @Override
@@ -86,7 +79,7 @@ public class Individual implements Comparable<Individual> {
         List<Chromosome> chromosomes = new ArrayList<>();
 
         for (int i = 0; i < problem.getDimension(); i++) {
-            chromosomes.add(Chromosome.generateNewChromosome(CHROMOSOME_SIZE));
+            chromosomes.add(Chromosome.generateNewChromosome(problem.chromosomeSize()));
         }
 
         return new Individual(chromosomes, problem);

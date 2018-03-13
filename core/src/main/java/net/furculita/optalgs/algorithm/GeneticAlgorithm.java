@@ -1,9 +1,9 @@
 package net.furculita.optalgs.algorithm;
 
-import net.furculita.optalgs.problem.History;
 import net.furculita.optalgs.individual.Chromosome;
 import net.furculita.optalgs.individual.Individual;
 import net.furculita.optalgs.individual.Population;
+import net.furculita.optalgs.problem.History;
 import net.furculita.optalgs.problem.Problem;
 
 import java.util.ArrayList;
@@ -29,7 +29,7 @@ public class GeneticAlgorithm extends Algorithm {
         History history = new History();
 
         int k = 0;
-        Individual currentBest = null;
+        Individual currentBest = population.get(0);
         do {
             population = doSelection(population, currentBest);
             population = doMutation(population);

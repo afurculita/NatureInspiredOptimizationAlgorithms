@@ -1,29 +1,31 @@
 package net.furculita.optalgs.algorithm;
 
-import net.furculita.optalgs.problem.History;
 import net.furculita.optalgs.individual.Chromosome;
 import net.furculita.optalgs.individual.Individual;
+import net.furculita.optalgs.problem.History;
 import net.furculita.optalgs.problem.Problem;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class AscentHillClimbing extends Algorithm {
+    private static final int ITERATIONS = 100;
+
     @Override
     public History solve(Problem problem) {
         History history = new History();
 
         Individual currentBest = Individual.potential(problem);
 
-        while (true) {
+        int it = 0;
+
+        do {
             List<Individual> neighbours = neighbours(currentBest);
-            boolean newBestFound = false;
 
             for (Individual neighbour : neighbours) {
                 if (neighbour.betterThan(currentBest)) {
                     history.add(neighbour);
                     currentBest = neighbour;
-                    newBestFound = true;
 
                     if (problem.optimumAchieved(currentBest.getFitness())) {
                         break;
@@ -31,10 +33,8 @@ public class AscentHillClimbing extends Algorithm {
                 }
             }
 
-            if (!newBestFound) {
-                break;
-            }
-        }
+            it++;
+        } while (it <= ITERATIONS);
 
         return history;
     }

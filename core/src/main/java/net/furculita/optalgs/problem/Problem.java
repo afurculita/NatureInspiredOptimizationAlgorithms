@@ -29,4 +29,6 @@ public abstract class Problem {
     public boolean optimumAchieved(Double d) {
         return d.equals(min);
     }
+
+    public abstract int chromosomeSize();
 }

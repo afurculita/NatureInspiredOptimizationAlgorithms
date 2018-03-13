@@ -1,7 +1,7 @@
 package net.furculita.optalgs.algorithm;
 
-import net.furculita.optalgs.problem.History;
 import net.furculita.optalgs.individual.Individual;
+import net.furculita.optalgs.problem.History;
 import net.furculita.optalgs.problem.Problem;
 
 public class SimpleHillClimbing extends Algorithm {
@@ -9,27 +9,23 @@ public class SimpleHillClimbing extends Algorithm {
         History history = new History();
 
         Individual best = Individual.potential(problem);
-        int iterationsWithoutNewSolutions = 0;
+        int it = 0;
 
-        while (true) {
+        do {
             Individual mutated = Individual.mutateOneRandomGeneFromOneRandomChromosome(best);
 
             if (mutated.betterThan(best)) {
                 history.add(mutated);
                 best = mutated;
-                iterationsWithoutNewSolutions = 0;
+                it = 0;
 
                 if (problem.optimumAchieved(best.getFitness())) {
                     break;
                 }
-            } else {
-                iterationsWithoutNewSolutions++;
             }
 
-            if (iterationsWithoutNewSolutions == 1000) {
-                break;
-            }
-        }
+            it++;
+        } while (it < 1000);
 
         return history;
     }
