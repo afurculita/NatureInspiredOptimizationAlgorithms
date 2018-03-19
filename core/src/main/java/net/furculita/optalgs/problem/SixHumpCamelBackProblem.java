@@ -14,7 +14,7 @@ public class SixHumpCamelBackProblem extends Problem {
     }
 
     @Override
-    public double fitness(Individual subject) {
+    public double func(Individual subject) {
         double x1 = subject.getChromosomes().get(0).asBoundedDecimal(-3, 3);
         double x2 = subject.getChromosomes().get(1).asBoundedDecimal(-2, 2);
 

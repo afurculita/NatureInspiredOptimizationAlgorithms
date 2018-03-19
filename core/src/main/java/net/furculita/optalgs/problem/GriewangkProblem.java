@@ -15,7 +15,7 @@ public class GriewangkProblem extends Problem {
     }
 
     @Override
-    public double fitness(Individual subject) {
+    public double func(Individual subject) {
         double sum = 0;
 
         for (Chromosome c : subject.getChromosomes()) {

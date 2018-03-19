@@ -5,6 +5,7 @@ import net.furculita.optalgs.individual.Individual;
 import net.furculita.optalgs.individual.Population;
 import net.furculita.optalgs.problem.History;
 import net.furculita.optalgs.problem.Problem;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +15,6 @@ public class GeneticAlgorithm extends Algorithm {
     private double crossoverRate;
     private double mutationRate;
 
-    private static final double MAX_FITNESS = 2000;
     private static final int MAX_ITERATIONS = 100;
 
     public GeneticAlgorithm(double crossOverRate, double mutationRate) {
@@ -31,23 +31,31 @@ public class GeneticAlgorithm extends Algorithm {
         int k = 0;
         Individual currentBest = population.get(0);
         do {
-            population = doSelection(population, currentBest);
-            population = doMutation(population);
-            population = doCrossover(population, problem);
+            population = nextGeneration(problem, population, currentBest);
 
             k++;
             Individual iterationBest = population.getElite();
+
+            System.out.println(iterationBest);
 
             if (iterationBest.betterThan(currentBest)) {
                 currentBest = iterationBest;
                 history.add(currentBest);
             }
-        } while (currentBest.getFitness() < MAX_FITNESS && k < MAX_ITERATIONS);
+        } while (k < MAX_ITERATIONS);
 
         return history;
     }
 
-    private Population doSelection(Population population, Individual currentBest) {
+    protected Population nextGeneration(Problem problem, Population population, Individual currentBest) {
+        Population selectedPop = doSelection(population, currentBest);
+        Population mutatedPop = doMutation(selectedPop);
+        Population crossover = doCrossover(mutatedPop, problem);
+
+        return crossover;
+    }
+
+    Population doSelection(Population population, Individual currentBest) {
         Population selectedPop = new Population();
 
         Random random = new Random();
@@ -57,20 +65,20 @@ public class GeneticAlgorithm extends Algorithm {
             double r = random.nextDouble();
             for (int j = 0; j < fitnessWeights.size(); j++) {
                 if (r < fitnessWeights.get(j)) {
-                    selectedPop.add(population.get(j));
+                    selectedPop.add(Individual.clone(population.get(j)));
                     break;
                 }
             }
         }
 
         if (currentBest != null && !selectedPop.contains(currentBest)) {
-            selectedPop.add(currentBest);
+            selectedPop.add(Individual.clone(currentBest));
         }
 
         return selectedPop;
     }
 
-    private Population doMutation(Population population) {
+    Population doMutation(Population population) {
         Population mutatedPop = new Population(population);
         Random random = new Random();
 
@@ -85,7 +93,7 @@ public class GeneticAlgorithm extends Algorithm {
         return mutatedPop;
     }
 
-    private Population doCrossover(Population population, Problem problem) {
+    Population doCrossover(Population population, Problem problem) {
         Population crossedPop = new Population(population);
         Random random = new Random();
         List<Integer> selectedIndexes = new ArrayList<>();
@@ -114,11 +122,12 @@ public class GeneticAlgorithm extends Algorithm {
         return crossedPop;
     }
 
+    @NotNull
     private Individual performCrossover(Individual x, Individual y, Problem problem) {
         List<Chromosome> childChroms = new ArrayList<>();
         Random random = new Random();
 
-        int selectedIndividualIndex = random.nextInt(x.getChromosomes().size());
+        int selectedChromosomeIndex = random.nextInt(x.getChromosomes().size());
         int selectedGeneIndex = random.nextInt(x.getChromosomeSize());
 
         boolean firstShouldBegin = random.nextBoolean();
@@ -132,9 +141,9 @@ public class GeneticAlgorithm extends Algorithm {
         }
 
         for (int i = 0; i < x.getChromosomes().size(); i++) {
-            if (i < selectedIndividualIndex) {
+            if (i < selectedChromosomeIndex) {
                 childChroms.add(Chromosome.clone(first.chromosome(i)));
-            } else if (i > selectedIndividualIndex) {
+            } else if (i > selectedChromosomeIndex) {
                 childChroms.add(Chromosome.clone(second.chromosome(i)));
             } else {
                 Chromosome middle = Chromosome.generateNewChromosome(x.getChromosomeSize());

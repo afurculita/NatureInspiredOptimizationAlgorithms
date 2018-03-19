@@ -6,7 +6,7 @@ import java.util.LinkedList;
 import java.util.stream.Collectors;
 
 public class History extends LinkedList<Individual> {
-    private Individual getBest() {
+    public Individual getBest() {
         if (this.isEmpty()) {
             return null;
         }

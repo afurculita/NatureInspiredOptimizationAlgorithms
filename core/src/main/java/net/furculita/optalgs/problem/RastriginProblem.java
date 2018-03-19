@@ -15,11 +15,11 @@ public class RastriginProblem extends Problem {
     }
 
     @Override
-    public double fitness(Individual subject) {
+    public double func(Individual subject) {
         double sum = 0;
 
         for (Chromosome c : subject.getChromosomes()) {
-            sum += Math.pow(c.asBoundedDecimal(MIN, MAX), 2) - 10 * Math.cos(2 * Math.PI * c.asBoundedDecimal(MIN, MAX));
+            sum += (Math.pow(c.asBoundedDecimal(MIN, MAX), 2) - 10 * Math.cos(2 * Math.PI * c.asBoundedDecimal(MIN, MAX)));
         }
 
         return 10 * this.dimension + sum;
@@ -35,6 +35,7 @@ public class RastriginProblem extends Problem {
 
     @Override
     public int chromosomeSize() {
-        return (int) Math.ceil(Math.log((MAX - MIN) * Math.pow(10, 0.01)));
+        return 10;
+//        return (int) Math.ceil(Math.log((MAX - MIN) * Math.pow(10, 0.01)));
     }
 }

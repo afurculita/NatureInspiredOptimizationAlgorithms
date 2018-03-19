@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Population extends ArrayList<Individual> {
-    private static final int SIZE = 10;
+    private static final int SIZE = 50;
 
     private double fitnessesSum = 0d;
     private List<Double> fitnessWeights;
@@ -63,14 +63,14 @@ public class Population extends ArrayList<Individual> {
     }
 
     public Individual getElite() {
-        final Individual[] currentBest = {this.get(0)};
+        Individual currentBest = this.get(0);
 
-        forEach((Individual ind) -> {
-            if (ind.getFitness() < currentBest[0].getFitness()) {
-                currentBest[0] = ind;
+        for (Individual ind : this) {
+            if (ind.getFitness() < currentBest.getFitness()) {
+                currentBest = ind;
             }
-        });
+        }
 
-        return currentBest[0];
+        return currentBest;
     }
 }

@@ -43,7 +43,11 @@ public class Individual implements Comparable<Individual> {
     }
 
     public double getFitness() {
-        return problem.fitness(this);
+        return 1 / (getProblemResult() + 0.00001);
+    }
+
+    public double getProblemResult() {
+        return problem.func(this);
     }
 
     @Override
@@ -52,15 +56,19 @@ public class Individual implements Comparable<Individual> {
     }
 
     public boolean betterThan(Individual o) {
-        return o == null || this.getFitness() < o.getFitness();
+        return o == null || this.getFitness() > o.getFitness();
+    }
+
+    public Problem getProblem() {
+        return problem;
     }
 
     @Override
     public String toString() {
-        return "f( "
-                + problem.solutionsToString(chromosomes)
-                + " ) = "
-                + Double.toString(getFitness());
+        return "f = "
+//                + problem.solutionsToString(chromosomes)
+//                + " ) = "
+                + Double.toString(getProblemResult());
     }
 
     @Override

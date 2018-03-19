@@ -22,7 +22,7 @@ public abstract class Problem {
         return dimension;
     }
 
-    public abstract double fitness(Individual subject);
+    public abstract double func(Individual subject);
 
     public abstract String solutionsToString(List<Chromosome> solution);
 
