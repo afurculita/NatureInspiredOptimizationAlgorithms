@@ -1,5 +1,6 @@
 package net.furculita.optalgs.algorithm;
 
+import net.furculita.optalgs.algorithm.crossover.CrossoverStrategy;
 import net.furculita.optalgs.individual.Individual;
 import net.furculita.optalgs.individual.Population;
 import net.furculita.optalgs.problem.Problem;
@@ -14,21 +15,21 @@ public class MemeticAlgorithm extends GeneticAlgorithm {
     private double hybridFactor;
     private int climbIterations;
 
-    public MemeticAlgorithm(double crossOverRate, double mutationRate, double hybridFactor, int climbIterations) {
-        super(crossOverRate, mutationRate);
+    public MemeticAlgorithm(CrossoverStrategy crossoverStrategy, double mutationRate, double hybridFactor, int climbIterations) {
+        super(crossoverStrategy, mutationRate);
         this.hybridFactor = hybridFactor;
         this.climbIterations = climbIterations;
     }
 
-    public MemeticAlgorithm(double crossOverRate, double mutationRate) {
-        this(crossOverRate, mutationRate, 0.3, 10);
+    public MemeticAlgorithm(CrossoverStrategy crossoverStrategy, double mutationRate) {
+        this(crossoverStrategy, mutationRate, 0.3, 10);
     }
 
     @Override
     protected Population nextGeneration(Problem problem, Population population, Individual currentBest) {
         population = doSelection(population, currentBest);
         population = doMutation(population);
-        population = doCrossover(population, problem);
+        population = crossoverStrategy.crossover(population, problem);
         population = doHillClimbing(population);
 
         return population;

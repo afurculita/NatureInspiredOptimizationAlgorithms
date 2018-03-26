@@ -38,7 +38,7 @@ public class Individual implements Comparable<Individual> {
         return problem.chromosomeSize();
     }
 
-    public void setChromosomes(List<Chromosome> chromosomes) {
+    private void setChromosomes(List<Chromosome> chromosomes) {
         this.chromosomes = chromosomes;
     }
 
@@ -46,7 +46,7 @@ public class Individual implements Comparable<Individual> {
         return 1 / (getProblemResult() + 0.00001);
     }
 
-    public double getProblemResult() {
+    private double getProblemResult() {
         return problem.func(this);
     }
 
@@ -65,10 +65,7 @@ public class Individual implements Comparable<Individual> {
 
     @Override
     public String toString() {
-        return "f = "
-//                + problem.solutionsToString(chromosomes)
-//                + " ) = "
-                + Double.toString(getProblemResult());
+        return Double.toString(getProblemResult());
     }
 
     @Override

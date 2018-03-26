@@ -1,7 +1,8 @@
 package net.furculita.optalgs.individual;
 
+import net.furculita.optalgs.Randoms;
+
 import java.util.BitSet;
-import java.util.Random;
 
 public class Chromosome extends BitSet {
     private static final long serialVersionUID = 1L;
@@ -14,9 +15,8 @@ public class Chromosome extends BitSet {
 
     public static Chromosome generateNewChromosome(int size) {
         Chromosome output = new Chromosome(size);
-        Random r = new Random();
         for (int i = 0; i < output.bitsNr(); i++) {
-            boolean value = r.nextBoolean();
+            boolean value = Randoms.bool();
             output.set(i, value);
         }
 

@@ -1,14 +1,18 @@
 package net.furculita.optalgs;
 
-import net.furculita.optalgs.algorithm.*;
-import net.furculita.optalgs.problem.*;
+import net.furculita.optalgs.algorithm.Algorithm;
+import net.furculita.optalgs.algorithm.GeneticAlgorithm;
+import net.furculita.optalgs.algorithm.crossover.RandomizedGeneSwapCrossover;
+import net.furculita.optalgs.problem.History;
+import net.furculita.optalgs.problem.RastriginProblem;
 
 public class Main {
     public static void main(String[] args) {
 //        solve(new SimpleHillClimbing());
 //        solve(new AscentHillClimbing());
-        solve(new GeneticAlgorithm(0.8, 0.3));
-        solve(new MemeticAlgorithm(0.8, 0.3));
+        solve(new GeneticAlgorithm(new RandomizedGeneSwapCrossover(0.95, 0.5), 0.1));
+//        solve(new GeneticAlgorithm(new OneRandomChromosomeCrossover(0.95), 0.1));
+//        solve(new MemeticAlgorithm(new OneRandomChromosomeCrossover(0.95), 0.1));
     }
 
     private static void solve(Algorithm algorithm) {
