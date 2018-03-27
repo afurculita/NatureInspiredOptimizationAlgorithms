@@ -8,6 +8,7 @@ import net.furculita.optalgs.problem.History;
 import net.furculita.optalgs.problem.Problem;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class GeneticAlgorithm extends Algorithm {
@@ -72,7 +73,9 @@ public class GeneticAlgorithm extends Algorithm {
             prevProbability = currProb;
         }
 
-        for (int i = 0; i < population.size(); i++) {
+        Collections.sort(population);
+
+        for (int i = 0; i < population.initSize(); i++) {
             double r = Randoms.percentage();
             for (int j = 0; j < fitnessWeights.size(); j++) {
                 if (r < fitnessWeights.get(j)) {

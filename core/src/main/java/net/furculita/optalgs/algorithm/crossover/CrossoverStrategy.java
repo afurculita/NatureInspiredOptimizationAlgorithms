@@ -16,6 +16,29 @@ public abstract class CrossoverStrategy {
     }
 
     public Population crossover(Population population, Problem problem) {
+        return tournamentSelectionOfParents(population, problem);
+    }
+
+    private Population tournamentSelectionOfParents(Population population, Problem problem) {
+        Population crossedPop = new Population(population);
+        Individual mum;
+        Individual dad;
+
+        while (crossedPop.size() < population.size()) {
+            do {
+                mum = population.tournamentSelection();
+                dad = population.tournamentSelection();
+            } while (mum.getFitness() == dad.getFitness());
+
+            crossedPop.add(crossover(mum, dad, problem));
+        }
+
+        population.addAll(crossedPop);
+
+        return population;
+    }
+
+    private Population parentsAndChildren(Population population, Problem problem) {
         Population crossedPop = new Population(population);
         List<Integer> selectedIndexes = new ArrayList<>();
 
@@ -35,8 +58,7 @@ public abstract class CrossoverStrategy {
             selectedIndexes.remove(Integer.valueOf(index2));
 
             Individual crossoverResult = crossover(population.get(index1), population.get(index2), problem);
-            crossedPop.set(index1, Individual.clone(crossoverResult));
-            crossedPop.set(index2, Individual.clone(crossoverResult));
+            crossedPop.add(Individual.clone(crossoverResult));
         }
 
         return crossedPop;

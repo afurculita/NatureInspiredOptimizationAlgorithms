@@ -52,6 +52,10 @@ public class Individual implements Comparable<Individual> {
 
     @Override
     public int compareTo(@NotNull Individual o) {
+        if (this.getFitness() == o.getFitness()) {
+            return 0;
+        }
+
         return this.betterThan(o) ? 1 : -1;
     }
 

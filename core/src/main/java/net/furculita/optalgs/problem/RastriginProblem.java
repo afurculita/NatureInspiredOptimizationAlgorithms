@@ -35,6 +35,7 @@ public class RastriginProblem extends Problem {
 
     @Override
     public int chromosomeSize() {
-        return (int) Math.ceil(Math.log((MAX - MIN) * Math.pow(10, 0.01)));
+        return 10;
+//        return (int) Math.ceil(Math.log((MAX - MIN) * Math.pow(10, 0.01)));
     }
 }

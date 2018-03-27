@@ -12,6 +12,10 @@ public class Population extends ArrayList<Individual> {
         super(SIZE);
     }
 
+    public int initSize() {
+        return SIZE;
+    }
+
     public Population(Population population) {
         for (Individual ind : population) {
             this.add(Individual.clone(ind));
