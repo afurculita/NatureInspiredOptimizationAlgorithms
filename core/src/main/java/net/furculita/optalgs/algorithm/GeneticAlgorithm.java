@@ -4,7 +4,7 @@ import net.furculita.optalgs.Randoms;
 import net.furculita.optalgs.algorithm.crossover.CrossoverStrategy;
 import net.furculita.optalgs.individual.Individual;
 import net.furculita.optalgs.individual.Population;
-import net.furculita.optalgs.problem.History;
+import net.furculita.optalgs.problem.StateResult;
 import net.furculita.optalgs.problem.Problem;
 
 import java.util.ArrayList;
@@ -24,13 +24,13 @@ public class GeneticAlgorithm extends Algorithm {
     }
 
     @Override
-    public History solve(Problem problem) {
+    public StateResult solve(Problem problem) {
         Population population = Population.potential(problem);
-        History history = new History();
+        StateResult stateResult = new StateResult();
 
         int k = 0;
         Individual currentBest = population.get(0);
-        history.add(currentBest);
+        stateResult.add(currentBest);
 
         do {
             population = nextGeneration(problem, population, currentBest);
@@ -42,11 +42,11 @@ public class GeneticAlgorithm extends Algorithm {
 
             if (iterationBest.betterThan(currentBest)) {
                 currentBest = iterationBest;
-                history.add(currentBest);
+                stateResult.add(currentBest);
             }
         } while (k < MAX_ITERATIONS);
 
-        return history;
+        return stateResult;
     }
 
     protected Population nextGeneration(Problem problem, Population population, Individual currentBest) {

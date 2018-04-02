@@ -2,7 +2,7 @@ package net.furculita.optalgs;
 
 import net.furculita.optalgs.algorithm.Algorithm;
 import net.furculita.optalgs.algorithm.ParticleSwarmAlgorithm;
-import net.furculita.optalgs.problem.History;
+import net.furculita.optalgs.problem.StateResult;
 import net.furculita.optalgs.problem.RastriginProblem;
 
 public class Main {
@@ -21,33 +21,33 @@ public class Main {
     }
 
     private static void solve(Algorithm algorithm) {
-        History history;
+        StateResult stateResult;
         System.out.println("============================================");
         System.out.println(algorithm);
 
 //        System.out.println("-----------------------------------------------");
 //        System.out.println("TEST");
-//        history = algorithm.solve(new TestProblem());
-//        System.out.println(history);
+//        stateResult = algorithm.solve(new TestProblem());
+//        System.out.println(stateResult);
 
         System.out.println("-----------------------------------------------");
         System.out.println("RastriginProblem");
-        history = algorithm.solve(new RastriginProblem(30));
-        System.out.println(history);
+        stateResult = algorithm.solve(new RastriginProblem(30));
+        System.out.println(stateResult);
 
 //        System.out.println("-----------------------------------------------");
 //        System.out.println("GriewangkProblem");
-//        history = algorithm.solve(new GriewangkProblem(3));
-//        System.out.println(history);
+//        stateResult = algorithm.solve(new GriewangkProblem(3));
+//        System.out.println(stateResult);
 
 //        System.out.println("-----------------------------------------------");
 //        System.out.println("RosenbrockValleyProblem");
-//        history = algorithm.solve(new RosenbrockValleyProblem(3));
-//        System.out.println(history);
+//        stateResult = algorithm.solve(new RosenbrockValleyProblem(3));
+//        System.out.println(stateResult);
 
 //        System.out.println("-----------------------------------------------");
 //        System.out.println("SixHumpCamelBackProblem");
-//        history = algorithm.solve(new SixHumpCamelBackProblem());
-//        System.out.println(history);
+//        stateResult = algorithm.solve(new SixHumpCamelBackProblem());
+//        System.out.println(stateResult);
     }
 }

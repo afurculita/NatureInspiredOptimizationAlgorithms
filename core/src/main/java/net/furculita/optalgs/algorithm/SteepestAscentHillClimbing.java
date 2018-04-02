@@ -2,7 +2,7 @@ package net.furculita.optalgs.algorithm;
 
 import net.furculita.optalgs.individual.Chromosome;
 import net.furculita.optalgs.individual.Individual;
-import net.furculita.optalgs.problem.History;
+import net.furculita.optalgs.problem.StateResult;
 import net.furculita.optalgs.problem.Problem;
 
 import java.util.List;
@@ -16,11 +16,11 @@ import java.util.List;
  */
 public class SteepestAscentHillClimbing extends Algorithm {
     @Override
-    public History solve(Problem problem) {
-        History history = new History();
+    public StateResult solve(Problem problem) {
+        StateResult stateResult = new StateResult();
 
         Individual currentBest = Individual.generateNewIndividual(problem);
-        history.add(currentBest);
+        stateResult.add(currentBest);
 
         boolean newBestFound;
 
@@ -29,14 +29,14 @@ public class SteepestAscentHillClimbing extends Algorithm {
             Individual neighbour = bestNeighbour(currentBest);
 
             if (neighbour.betterThan(currentBest)) {
-                history.add(neighbour);
+                stateResult.add(neighbour);
                 currentBest = neighbour;
 
                 newBestFound = true;
             }
         } while (newBestFound);
 
-        return history;
+        return stateResult;
     }
 
     private Individual bestNeighbour(Individual individual) {

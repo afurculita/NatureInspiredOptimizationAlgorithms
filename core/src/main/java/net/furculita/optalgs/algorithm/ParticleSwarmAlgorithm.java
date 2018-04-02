@@ -3,7 +3,7 @@ package net.furculita.optalgs.algorithm;
 import net.furculita.optalgs.individual.Particle;
 import net.furculita.optalgs.individual.Swarm;
 import net.furculita.optalgs.individual.Vector;
-import net.furculita.optalgs.problem.History;
+import net.furculita.optalgs.problem.StateResult;
 import net.furculita.optalgs.problem.Problem;
 
 public class ParticleSwarmAlgorithm extends Algorithm {
@@ -28,12 +28,12 @@ public class ParticleSwarmAlgorithm extends Algorithm {
     }
 
     @Override
-    public History solve(Problem problem) {
-        History history = new History();
+    public StateResult solve(Problem problem) {
+        StateResult stateResult = new StateResult();
         Swarm swarm = new Swarm(problem, particlesNr);
 
         Particle currentBest = swarm.getBest();
-        history.add(currentBest);
+        stateResult.add(currentBest);
 
         for (int i = 0; i < ITERATIONS; i++) {
             swarm.evaluate();
@@ -44,11 +44,11 @@ public class ParticleSwarmAlgorithm extends Algorithm {
 
             if (swarm.getBestFitness() < currentBest.getBestFitness()) {
                 currentBest = swarm.getBest();
-                history.add(currentBest);
+                stateResult.add(currentBest);
             }
         }
 
-        return history;
+        return stateResult;
     }
 
     private void update(Particle particle, Swarm swarm) {

@@ -1,7 +1,7 @@
 package net.furculita.optalgs.algorithm;
 
 import net.furculita.optalgs.individual.Individual;
-import net.furculita.optalgs.problem.History;
+import net.furculita.optalgs.problem.StateResult;
 import net.furculita.optalgs.problem.Problem;
 
 /**
@@ -12,11 +12,11 @@ import net.furculita.optalgs.problem.Problem;
  * http://www.cs.stir.ac.uk/~goc/papers/PPSN10FirstImprLON.pdf
  */
 public class GreedyAscentHillClimbing extends Algorithm {
-    public History solve(Problem problem) {
-        History history = new History();
+    public StateResult solve(Problem problem) {
+        StateResult stateResult = new StateResult();
 
         Individual currentBest = Individual.generateNewIndividual(problem);
-        history.add(currentBest);
+        stateResult.add(currentBest);
 
         int it = 0;
 
@@ -24,7 +24,7 @@ public class GreedyAscentHillClimbing extends Algorithm {
             Individual randomNeighbour = Individual.mutateOneRandomGeneFromOneRandomChromosome(currentBest);
 
             if (randomNeighbour.betterThan(currentBest)) {
-                history.add(randomNeighbour);
+                stateResult.add(randomNeighbour);
                 currentBest = randomNeighbour;
                 it = 0;
             }
@@ -32,7 +32,7 @@ public class GreedyAscentHillClimbing extends Algorithm {
             it++;
         } while (!problem.optimumAchieved(currentBest.getFitness()) && it < 1000);
 
-        return history;
+        return stateResult;
     }
 
     @Override

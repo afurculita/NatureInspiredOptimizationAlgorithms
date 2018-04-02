@@ -5,7 +5,7 @@ import net.furculita.optalgs.individual.Item;
 import java.util.LinkedList;
 import java.util.stream.Collectors;
 
-public class History extends LinkedList<Item> {
+public class StateResult extends LinkedList<Item> {
     private Item getBest() {
         if (this.isEmpty()) {
             return null;
