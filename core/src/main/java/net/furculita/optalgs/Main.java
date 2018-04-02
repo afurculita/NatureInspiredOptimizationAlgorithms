@@ -2,8 +2,8 @@ package net.furculita.optalgs;
 
 import net.furculita.optalgs.algorithm.Algorithm;
 import net.furculita.optalgs.algorithm.ParticleSwarmAlgorithm;
+import net.furculita.optalgs.problem.SixHumpCamelBackProblem;
 import net.furculita.optalgs.problem.StateResult;
-import net.furculita.optalgs.problem.RastriginProblem;
 
 public class Main {
     public static void main(String[] args) {
@@ -30,10 +30,10 @@ public class Main {
 //        stateResult = algorithm.solve(new TestProblem());
 //        System.out.println(stateResult);
 
-        System.out.println("-----------------------------------------------");
-        System.out.println("RastriginProblem");
-        stateResult = algorithm.solve(new RastriginProblem(30));
-        System.out.println(stateResult);
+//        System.out.println("-----------------------------------------------");
+//        System.out.println("RastriginProblem");
+//        stateResult = algorithm.solve(new RastriginProblem(30));
+//        System.out.println(stateResult);
 
 //        System.out.println("-----------------------------------------------");
 //        System.out.println("GriewangkProblem");
@@ -45,9 +45,9 @@ public class Main {
 //        stateResult = algorithm.solve(new RosenbrockValleyProblem(3));
 //        System.out.println(stateResult);
 
-//        System.out.println("-----------------------------------------------");
-//        System.out.println("SixHumpCamelBackProblem");
-//        stateResult = algorithm.solve(new SixHumpCamelBackProblem());
-//        System.out.println(stateResult);
+        System.out.println("-----------------------------------------------");
+        System.out.println("SixHumpCamelBackProblem");
+        stateResult = algorithm.solve(new SixHumpCamelBackProblem());
+        System.out.println(stateResult);
     }
 }
