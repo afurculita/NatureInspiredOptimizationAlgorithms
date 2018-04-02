@@ -15,11 +15,21 @@ public class RastriginProblem extends Problem {
     }
 
     @Override
-    public double func(Individual subject) {
+    public double evaluate(Individual subject) {
+        double[] coordinates = subject.getChromosomes()
+                .stream()
+                .mapToDouble((Chromosome c) -> c.asBoundedDecimal(MIN, MAX))
+                .toArray();
+
+        return evaluate(coordinates);
+    }
+
+    @Override
+    public double evaluate(double[] coordinates) {
         double sum = 0;
 
-        for (Chromosome c : subject.getChromosomes()) {
-            sum += (Math.pow(c.asBoundedDecimal(MIN, MAX), 2) - 10 * Math.cos(2 * Math.PI * c.asBoundedDecimal(MIN, MAX)));
+        for (double c : coordinates) {
+            sum += (Math.pow(c, 2) - 10 * Math.cos(2 * Math.PI * c));
         }
 
         return 10 * this.dimension + sum;
@@ -36,6 +46,27 @@ public class RastriginProblem extends Problem {
     @Override
     public int chromosomeSize() {
         return 10;
-//        return (int) Math.ceil(Math.log((MAX - MIN) * Math.pow(10, 0.01)));
+    }
+
+    @Override
+    public double[] min() {
+        double[] min = new double[this.dimension];
+
+        for (int i = 0; i < dimension; i++) {
+            min[i] = MIN;
+        }
+
+        return min;
+    }
+
+    @Override
+    public double[] max() {
+        double[] max = new double[this.dimension];
+
+        for (int i = 0; i < dimension; i++) {
+            max[i] = MAX;
+        }
+
+        return max;
     }
 }

@@ -68,4 +68,13 @@ public class MemeticAlgorithm extends GeneticAlgorithm {
 
         return best;
     }
+
+    @Override
+    public String toString() {
+        return "MemeticAlgorithm{" +
+                "hybridFactor=" + hybridFactor +
+                ", climbIterations=" + climbIterations +
+                ", crossoverStrategy=" + crossoverStrategy.getClass().getSimpleName() +
+                '}';
+    }
 }

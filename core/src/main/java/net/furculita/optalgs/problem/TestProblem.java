@@ -6,33 +6,26 @@ import net.furculita.optalgs.individual.Individual;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class RosenbrockValleyProblem extends Problem {
-    private static final double MIN = -2.048;
-    private static final double MAX = 2.048;
+public class TestProblem extends Problem {
+    private static final int MIN = 0;
+    private static final int MAX = 31;
 
-    public RosenbrockValleyProblem(int dimension) {
-        super(dimension, 0);
+    public TestProblem() {
+        super(1, 10);
     }
 
     @Override
     public double evaluate(Individual subject) {
-        double[] coordinates = subject.getChromosomes()
-                .stream()
-                .mapToDouble((Chromosome c) -> c.asBoundedDecimal(MIN, MAX))
-                .toArray();
+        Chromosome c = subject.getChromosomes().get(0);
 
-        return evaluate(coordinates);
+        return evaluate(new double[]{c.asBoundedDecimal(MIN, MAX)});
     }
 
     @Override
-    public double evaluate(double[] c) {
-        double sum = 0;
+    public double evaluate(double[] coordinates) {
+        double x = coordinates[0];
 
-        for (int i = 0; i < c.length - 1; i++) {
-            sum += 100 * Math.pow(c[i + 1] - Math.pow(c[i], 2), 2) + Math.pow(1 - c[i], 2);
-        }
-
-        return sum;
+        return 1 / (Math.pow(x, 3) - 60 * Math.pow(x, 2) + 900 * x + 100);
     }
 
     @Override
@@ -45,7 +38,7 @@ public class RosenbrockValleyProblem extends Problem {
 
     @Override
     public int chromosomeSize() {
-        return (int) Math.ceil(Math.log((MAX - MIN) * Math.pow(10, 0.01)));
+        return 5;
     }
 
     @Override

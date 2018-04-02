@@ -12,8 +12,6 @@
 
     <modules>
         <module>core</module>
-        <module>consoleapp</module>
-        <module>hillclimbing</module>
     </modules>
 
     <build>

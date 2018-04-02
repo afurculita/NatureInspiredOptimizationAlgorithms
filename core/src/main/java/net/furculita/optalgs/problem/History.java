@@ -1,12 +1,12 @@
 package net.furculita.optalgs.problem;
 
-import net.furculita.optalgs.individual.Individual;
+import net.furculita.optalgs.individual.Item;
 
 import java.util.LinkedList;
 import java.util.stream.Collectors;
 
-public class History extends LinkedList<Individual> {
-    public Individual getBest() {
+public class History extends LinkedList<Item> {
+    private Item getBest() {
         if (this.isEmpty()) {
             return null;
         }
@@ -19,7 +19,7 @@ public class History extends LinkedList<Individual> {
         return "Best: " + this.getBest()
                 + "\nFitness history: \n"
                 + this.stream()
-                .map(Individual::toString)
+                .map(Item::toString)
                 .collect(Collectors.joining("\n"));
     }
 }

@@ -17,7 +17,7 @@ public class GeneticAlgorithm extends Algorithm {
     private static final int MAX_ITERATIONS = 1000;
     CrossoverStrategy crossoverStrategy;
 
-    public GeneticAlgorithm(CrossoverStrategy crossoverStrategy, double mutationRate) {
+    GeneticAlgorithm(CrossoverStrategy crossoverStrategy, double mutationRate) {
         super();
         this.crossoverStrategy = crossoverStrategy;
         this.mutationRate = mutationRate;
@@ -104,5 +104,13 @@ public class GeneticAlgorithm extends Algorithm {
         }
 
         return mutatedPop;
+    }
+
+    @Override
+    public String toString() {
+        return "GeneticAlgorithm{" +
+                "mutationRate=" + mutationRate +
+                ", crossoverStrategy=" + crossoverStrategy.getClass().getSimpleName() +
+                '}';
     }
 }

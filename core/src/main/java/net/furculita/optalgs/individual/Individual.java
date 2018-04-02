@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Random;
 
-public class Individual implements Comparable<Individual> {
+public class Individual implements Comparable<Individual>, Item {
     private List<Chromosome> chromosomes = new ArrayList<>();
     private Problem problem;
 
@@ -47,7 +47,7 @@ public class Individual implements Comparable<Individual> {
     }
 
     private double getProblemResult() {
-        return problem.func(this);
+        return problem.evaluate(this);
     }
 
     @Override
@@ -69,7 +69,9 @@ public class Individual implements Comparable<Individual> {
 
     @Override
     public String toString() {
-        return Double.toString(getProblemResult());
+        return
+                "f(" + problem.solutionsToString(chromosomes) + ") = "
+                        + Double.toString(getProblemResult());
     }
 
     @Override
@@ -93,10 +95,6 @@ public class Individual implements Comparable<Individual> {
         }
 
         return new Individual(chromosomes, problem);
-    }
-
-    public static Individual potential(Problem problem) {
-        return Individual.generateNewIndividual(problem);
     }
 
     public static Individual clone(Individual ind) {

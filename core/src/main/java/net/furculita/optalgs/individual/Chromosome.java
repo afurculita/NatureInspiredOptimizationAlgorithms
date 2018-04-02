@@ -49,7 +49,7 @@ public class Chromosome extends BitSet {
     }
 
     private static double map(int s, double a1, double a2, double b1, double b2) {
-        return b1 + (s - a1) * (b2 - b1) / (a2 - a1);
+        return b1 + s * (b2 - b1) / (a2 - a1);
     }
 
     @Override
