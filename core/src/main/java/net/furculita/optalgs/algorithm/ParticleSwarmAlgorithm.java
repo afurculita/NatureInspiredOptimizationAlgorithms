@@ -3,15 +3,15 @@ package net.furculita.optalgs.algorithm;
 import net.furculita.optalgs.individual.Particle;
 import net.furculita.optalgs.individual.Swarm;
 import net.furculita.optalgs.individual.Vector;
-import net.furculita.optalgs.problem.StateResult;
 import net.furculita.optalgs.problem.Problem;
+import net.furculita.optalgs.problem.StateResult;
 
 public class ParticleSwarmAlgorithm extends Algorithm {
     private static final double DEFAULT_OMEGA = -0.1618;
     private static final double DEFAULT_PHI_P = 1.8903;
     private static final double DEFAULT_PHI_G = 2.1225;
-    private static final int NUM_PARTICLES = 134;
-    private static final int ITERATIONS = 1000;
+    private static final int NUM_PARTICLES = 100;
+    private static final int ITERATIONS = 500;
 
     private int particlesNr;
     private double inertia, cognitiveComponent, socialComponent;
@@ -34,6 +34,7 @@ public class ParticleSwarmAlgorithm extends Algorithm {
 
         Particle currentBest = swarm.getBest();
         stateResult.add(currentBest);
+        stateResult.setBest(currentBest);
 
         for (int i = 0; i < ITERATIONS; i++) {
             swarm.evaluate();
@@ -42,9 +43,11 @@ public class ParticleSwarmAlgorithm extends Algorithm {
                 update(p, swarm);
             }
 
+            stateResult.add(swarm.getBest());
+
             if (swarm.getBestFitness() < currentBest.getBestFitness()) {
                 currentBest = swarm.getBest();
-                stateResult.add(currentBest);
+                stateResult.setBest(currentBest);
             }
         }
 

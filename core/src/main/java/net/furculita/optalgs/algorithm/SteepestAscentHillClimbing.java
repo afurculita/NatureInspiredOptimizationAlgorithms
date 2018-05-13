@@ -2,16 +2,16 @@ package net.furculita.optalgs.algorithm;
 
 import net.furculita.optalgs.individual.Chromosome;
 import net.furculita.optalgs.individual.Individual;
-import net.furculita.optalgs.problem.StateResult;
 import net.furculita.optalgs.problem.Problem;
+import net.furculita.optalgs.problem.StateResult;
 
 import java.util.List;
 
 /**
  * Best-improvement Hill Climbing.
- *
+ * <p>
  * The entire neighborhood is explored and the best solution is returned
- *
+ * <p>
  * http://www.cs.stir.ac.uk/~goc/papers/PPSN10FirstImprLON.pdf
  */
 public class SteepestAscentHillClimbing extends Algorithm {
@@ -21,6 +21,7 @@ public class SteepestAscentHillClimbing extends Algorithm {
 
         Individual currentBest = Individual.generateNewIndividual(problem);
         stateResult.add(currentBest);
+        stateResult.setBest(currentBest);
 
         boolean newBestFound;
 
@@ -28,9 +29,11 @@ public class SteepestAscentHillClimbing extends Algorithm {
             newBestFound = false;
             Individual neighbour = bestNeighbour(currentBest);
 
+            stateResult.add(neighbour);
+
             if (neighbour.betterThan(currentBest)) {
-                stateResult.add(neighbour);
                 currentBest = neighbour;
+                stateResult.setBest(currentBest);
 
                 newBestFound = true;
             }

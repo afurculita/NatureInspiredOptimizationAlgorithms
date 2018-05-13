@@ -4,8 +4,8 @@ import net.furculita.optalgs.Randoms;
 import net.furculita.optalgs.algorithm.crossover.CrossoverStrategy;
 import net.furculita.optalgs.individual.Individual;
 import net.furculita.optalgs.individual.Population;
-import net.furculita.optalgs.problem.StateResult;
 import net.furculita.optalgs.problem.Problem;
+import net.furculita.optalgs.problem.StateResult;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -14,10 +14,10 @@ import java.util.List;
 public class GeneticAlgorithm extends Algorithm {
     private double mutationRate;
 
-    private static final int MAX_ITERATIONS = 1000;
+    private static final int MAX_ITERATIONS = 500;
     CrossoverStrategy crossoverStrategy;
 
-    GeneticAlgorithm(CrossoverStrategy crossoverStrategy, double mutationRate) {
+    public GeneticAlgorithm(CrossoverStrategy crossoverStrategy, double mutationRate) {
         super();
         this.crossoverStrategy = crossoverStrategy;
         this.mutationRate = mutationRate;
@@ -31,6 +31,7 @@ public class GeneticAlgorithm extends Algorithm {
         int k = 0;
         Individual currentBest = population.get(0);
         stateResult.add(currentBest);
+        stateResult.setBest(currentBest);
 
         do {
             population = nextGeneration(problem, population, currentBest);
@@ -38,11 +39,11 @@ public class GeneticAlgorithm extends Algorithm {
             k++;
             Individual iterationBest = population.getFittest();
 
-            System.out.println(k + ": " + iterationBest);
+            stateResult.add(iterationBest);
 
             if (iterationBest.betterThan(currentBest)) {
                 currentBest = iterationBest;
-                stateResult.add(currentBest);
+                stateResult.setBest(currentBest);
             }
         } while (k < MAX_ITERATIONS);
 

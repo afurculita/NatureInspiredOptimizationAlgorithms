@@ -80,4 +80,9 @@ public class Particle implements Item {
     public String toString() {
         return "f(" + bestPosition + ") = " + bestFitness;
     }
+
+    @Override
+    public double getValue() {
+        return this.getBestFitness();
+    }
 }

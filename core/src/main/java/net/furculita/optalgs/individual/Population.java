@@ -6,7 +6,7 @@ import net.furculita.optalgs.problem.Problem;
 import java.util.ArrayList;
 
 public class Population extends ArrayList<Individual> {
-    private static final int SIZE = 50;
+    private static final int SIZE = 100;
 
     public Population() {
         super(SIZE);

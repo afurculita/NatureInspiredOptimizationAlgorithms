@@ -75,6 +75,11 @@ public class Individual implements Comparable<Individual>, Item {
     }
 
     @Override
+    public double getValue() {
+        return getProblemResult();
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Individual)) return false;

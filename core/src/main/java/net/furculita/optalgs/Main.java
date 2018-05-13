@@ -1,26 +1,36 @@
 package net.furculita.optalgs;
 
+import javafx.application.Application;
+import javafx.scene.Scene;
+import javafx.scene.chart.LineChart;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.XYChart;
+import javafx.stage.Stage;
 import net.furculita.optalgs.algorithm.Algorithm;
+import net.furculita.optalgs.algorithm.GeneticAlgorithm;
+import net.furculita.optalgs.algorithm.MemeticAlgorithm;
 import net.furculita.optalgs.algorithm.ParticleSwarmAlgorithm;
-import net.furculita.optalgs.problem.SixHumpCamelBackProblem;
+import net.furculita.optalgs.algorithm.crossover.OneRandomChromosomeCrossover;
+import net.furculita.optalgs.problem.RastriginProblem;
 import net.furculita.optalgs.problem.StateResult;
 
-public class Main {
+import java.util.ArrayList;
+import java.util.List;
+
+public class Main extends Application {
+    private static List<XYChart.Series<Number, Number>> seriesList = new ArrayList<>();
+
     public static void main(String[] args) {
-//        solve(new GreedyAscentHillClimbing());
-//        solve(new SteepestAscentHillClimbing());
-//        solve(new GeneticAlgorithm(new OneRandomChromosomeCrossover(0.95), 0.3));
-//        solve(new MemeticAlgorithm(new OneRandomChromosomeCrossover(0.95), 0.1));
-        solve(new ParticleSwarmAlgorithm(161, -0.2089, -0.0787, 3.7637));
-        solve(new ParticleSwarmAlgorithm(149, -0.3236, -0.1136, 3.9789));
-        solve(new ParticleSwarmAlgorithm(60, -0.4736, -0.97, 3.7904));
-        solve(new ParticleSwarmAlgorithm(256, -0.3499, -0.0513, 4.9087));
-        solve(new ParticleSwarmAlgorithm(134, -0.1618, 1.8903, 2.1225));
-        solve(new ParticleSwarmAlgorithm(95, -0.6031, -0.6485, 2.6475));
-        solve(new ParticleSwarmAlgorithm(106, -0.2256, -0.1564, 3.8876));
+//        solve(new GreedyAscentHillClimbing(), 10);
+//        solve(new SteepestAscentHillClimbing(), 10);
+        solve(new GeneticAlgorithm(new OneRandomChromosomeCrossover(0.95), 0.3), 10);
+        solve(new MemeticAlgorithm(new OneRandomChromosomeCrossover(0.95), 0.1), 10);
+        solve(new ParticleSwarmAlgorithm(100, 0.05, 0.5, 0.5), 10);
+
+        displayChart();
     }
 
-    private static void solve(Algorithm algorithm) {
+    private static void solve(Algorithm algorithm, int dimension) {
         StateResult stateResult;
         System.out.println("============================================");
         System.out.println(algorithm);
@@ -30,24 +40,65 @@ public class Main {
 //        stateResult = algorithm.solve(new TestProblem());
 //        System.out.println(stateResult);
 
-//        System.out.println("-----------------------------------------------");
-//        System.out.println("RastriginProblem");
-//        stateResult = algorithm.solve(new RastriginProblem(30));
-//        System.out.println(stateResult);
+        System.out.println("-----------------------------------------------");
+        System.out.println("RastriginProblem");
+        stateResult = algorithm.solve(new RastriginProblem(dimension));
+        System.out.println(stateResult);
+        createChartSeries(stateResult, algorithm);
 
 //        System.out.println("-----------------------------------------------");
 //        System.out.println("GriewangkProblem");
-//        stateResult = algorithm.solve(new GriewangkProblem(3));
+//        stateResult = algorithm.solve(new GriewangkProblem(dimension));
 //        System.out.println(stateResult);
-
+//        createChartSeries(stateResult, algorithm);
+//
 //        System.out.println("-----------------------------------------------");
 //        System.out.println("RosenbrockValleyProblem");
-//        stateResult = algorithm.solve(new RosenbrockValleyProblem(3));
+//        stateResult = algorithm.solve(new RosenbrockValleyProblem(dimension));
 //        System.out.println(stateResult);
+//        createChartSeries(stateResult, algorithm);
+//
+//        System.out.println("-----------------------------------------------");
+//        System.out.println("SixHumpCamelBackProblem");
+//        stateResult = algorithm.solve(new SixHumpCamelBackProblem());
+//        System.out.println(stateResult);
+//        createChartSeries(stateResult, algorithm);
+    }
 
-        System.out.println("-----------------------------------------------");
-        System.out.println("SixHumpCamelBackProblem");
-        stateResult = algorithm.solve(new SixHumpCamelBackProblem());
-        System.out.println(stateResult);
+    private static void createChartSeries(StateResult s, Algorithm alg) {
+        XYChart.Series series = new XYChart.Series();
+        series.setName(alg.getClass().getSimpleName());
+
+        for (int i = 10; i <= s.size(); i++) {
+            series.getData().add(new XYChart.Data(i, s.get(i - 1).getValue()));
+        }
+
+        seriesList.add(series);
+    }
+
+    @Override
+    public void start(Stage stage) {
+        stage.setTitle("Charts");
+        //defining the axes
+        final NumberAxis xAxis = new NumberAxis();
+        xAxis.setLabel("Iterations");
+
+        final NumberAxis yAxis = new NumberAxis();
+        yAxis.setLabel("Optimum");
+
+        //creating the chart
+        final LineChart<Number, Number> lineChart = new LineChart<>(xAxis, yAxis);
+
+        lineChart.setTitle("Convergence to optimum per algorithm");
+
+        Scene scene = new Scene(lineChart, 800, 600);
+        lineChart.getData().addAll(seriesList);
+
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    private static void displayChart() {
+        launch();
     }
 }

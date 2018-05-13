@@ -17,15 +17,18 @@ public class GreedyAscentHillClimbing extends Algorithm {
 
         Individual currentBest = Individual.generateNewIndividual(problem);
         stateResult.add(currentBest);
+        stateResult.setBest(currentBest);
 
         int it = 0;
 
         do {
             Individual randomNeighbour = Individual.mutateOneRandomGeneFromOneRandomChromosome(currentBest);
 
+            stateResult.add(randomNeighbour);
+
             if (randomNeighbour.betterThan(currentBest)) {
-                stateResult.add(randomNeighbour);
                 currentBest = randomNeighbour;
+                stateResult.setBest(currentBest);
                 it = 0;
             }
 
