@@ -1,5 +1,6 @@
 package net.furculita.optalgs.individual;
 
+import net.furculita.optalgs.Randoms;
 import net.furculita.optalgs.problem.Problem;
 
 import java.util.Random;
@@ -20,31 +21,21 @@ public class Particle implements Item {
         this.problem = particle.problem;
     }
 
-    Particle(Problem problem) {
+    public Particle(Problem problem) {
         this.problem = problem;
 
-        double[] minPos = problem.min();
-        double[] maxPos = problem.max();
-
-        position = new Vector(problem.getDimension());
-        for (int i = 0; i < problem.getDimension(); i++) {
-            position.add(i, rand(minPos[i], maxPos[i]));
-        }
+        position = problem.randomVector();
 
         velocity = new Vector(problem.getDimension());
         for (int i = 0; i < problem.getDimension(); i++) {
-            velocity.add(i, (maxPos[i] - minPos[i]) / 2.0);
+            velocity.add(i, Randoms.between(-6, 6));
         }
 
         bestPosition = position;
         bestFitness = problem.evaluate(this);
     }
 
-    private static double rand(double beginRange, double endRange) {
-        return (endRange - beginRange) * Particle.r.nextDouble() + beginRange;
-    }
-
-    void updatePersonalBest() {
+    public void updatePersonalBest() {
         double fitness = problem.evaluate(this);
         if (problem.isBetterThan(bestFitness, fitness)) {
             bestPosition = position.copy();

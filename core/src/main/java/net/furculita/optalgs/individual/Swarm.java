@@ -13,19 +13,9 @@ public class Swarm extends ArrayList<Particle> {
         super(numOfParticles);
         this.problem = problem;
         this.numOfParticles = numOfParticles;
-
-        this.populate();
     }
 
-    private void populate() {
-        for (int i = 0; i < numOfParticles; i++) {
-            Particle particle = new Particle(problem);
-            this.add(particle);
-            updateBest(particle);
-        }
-    }
-
-    private void updateBest(Particle particle) {
+    public void updateBest(Particle particle) {
         if (best == null || particle.getBestFitness() < this.getBestFitness()) {
             best = new Particle(particle);
         }
@@ -43,10 +33,11 @@ public class Swarm extends ArrayList<Particle> {
         return best;
     }
 
-    public void evaluate() {
-        for (Particle p : this) {
-            p.updatePersonalBest();
-            this.updateBest(p);
-        }
+    public int getNumOfParticles() {
+        return numOfParticles;
+    }
+
+    public Problem getProblem() {
+        return problem;
     }
 }

@@ -72,7 +72,7 @@ public class StateResult<T extends Item> extends LinkedList<T> {
 
     public double getConfidenceInterval(double confidenceLevel) {
         try {
-            // Create T Distribution with N-1 degrees of freedom
+            // Create T ParticleDistribution with N-1 degrees of freedom
             TDistribution tDist = new TDistribution(stats.getN() - 1);
             // Calculate critical value
             double critVal = tDist.inverseCumulativeProbability(1.0 - (1 - confidenceLevel) / 2);

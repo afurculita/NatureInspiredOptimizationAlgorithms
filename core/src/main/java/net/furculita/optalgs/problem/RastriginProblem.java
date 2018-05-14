@@ -11,7 +11,7 @@ public class RastriginProblem extends Problem {
     private static final double MAX = 5.12;
 
     public RastriginProblem(int dimension) {
-        super(dimension, 0.0);
+        super(dimension);
     }
 
     @Override

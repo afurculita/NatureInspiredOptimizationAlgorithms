@@ -16,4 +16,8 @@ public final class Randoms {
     public static boolean bool() {
         return random.nextBoolean();
     }
+
+    public static double between(double beginRange, double endRange) {
+        return (endRange - beginRange) * random.nextDouble() + beginRange;
+    }
 }

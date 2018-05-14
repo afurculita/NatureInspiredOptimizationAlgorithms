@@ -11,7 +11,7 @@ public class RosenbrockValleyProblem extends Problem {
     private static final double MAX = 2.048;
 
     public RosenbrockValleyProblem(int dimension) {
-        super(dimension, 0);
+        super(dimension);
     }
 
     @Override

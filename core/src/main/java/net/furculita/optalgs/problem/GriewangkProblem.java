@@ -11,7 +11,7 @@ public class GriewangkProblem extends Problem {
     private static final int MAX = 600;
 
     public GriewangkProblem(int dimension) {
-        super(dimension, 0.0);
+        super(dimension);
     }
 
     @Override

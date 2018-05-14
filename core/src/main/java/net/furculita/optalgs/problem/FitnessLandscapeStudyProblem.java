@@ -11,7 +11,7 @@ public class FitnessLandscapeStudyProblem extends Problem {
     private static final int MAX = 31;
 
     public FitnessLandscapeStudyProblem() {
-        super(1, 10);
+        super(1);
     }
 
     @Override

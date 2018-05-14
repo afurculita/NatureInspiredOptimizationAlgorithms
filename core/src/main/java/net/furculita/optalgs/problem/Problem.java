@@ -1,28 +1,24 @@
 package net.furculita.optalgs.problem;
 
+import net.furculita.optalgs.Randoms;
 import net.furculita.optalgs.individual.Chromosome;
 import net.furculita.optalgs.individual.Individual;
 import net.furculita.optalgs.individual.Particle;
+import net.furculita.optalgs.individual.Vector;
 
 import java.util.List;
 
 public abstract class Problem {
     int dimension;
-    private Double min;
     private boolean maximize = false;
 
-    public Problem(int dimension, double min) {
-        this(dimension, min, false);
-    }
-
-    public Problem(int dimension, double min, boolean maximize) {
-        this.dimension = dimension;
-        this.min = min;
-        this.maximize = maximize;
-    }
-
     public Problem(int dimension) {
+        this(dimension, false);
+    }
+
+    public Problem(int dimension, boolean maximize) {
         this.dimension = dimension;
+        this.maximize = maximize;
     }
 
     public int getDimension() {
@@ -49,10 +45,6 @@ public abstract class Problem {
 
     public abstract String solutionsToString(List<Chromosome> solution);
 
-    public boolean optimumAchieved(Double d) {
-        return d.equals(min);
-    }
-
     public abstract int chromosomeSize();
 
     public double[] min() {
@@ -73,5 +65,17 @@ public abstract class Problem {
         }
 
         return max;
+    }
+
+    public Vector randomVector() {
+        double[] minPos = this.min();
+        double[] maxPos = this.max();
+
+        Vector position = new Vector(this.getDimension());
+        for (int i = 0; i < this.getDimension(); i++) {
+            position.add(i, Randoms.between(minPos[i], maxPos[i]));
+        }
+
+        return position;
     }
 }
