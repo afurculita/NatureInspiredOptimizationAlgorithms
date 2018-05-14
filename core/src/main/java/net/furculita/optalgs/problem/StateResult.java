@@ -7,17 +7,18 @@ import org.apache.commons.math3.stat.descriptive.SummaryStatistics;
 
 import java.util.LinkedList;
 
-public class StateResult extends LinkedList<Item> {
+public class StateResult<T extends Item> extends LinkedList<T> {
     private SummaryStatistics stats = new SummaryStatistics();
-    private Item best = null;
+    private T best = null;
 
-    public void setBest(Item best) {
+    public void addBest(T best) {
 //        System.out.print(best.toString());
+        this.add(best);
 
         this.best = best;
     }
 
-    private Item getBest() {
+    public T getBest() {
         return best;
     }
 
@@ -43,7 +44,7 @@ public class StateResult extends LinkedList<Item> {
     }
 
     @Override
-    public boolean add(Item item) {
+    public boolean add(T item) {
         boolean added = super.add(item);
 
         if (added) {

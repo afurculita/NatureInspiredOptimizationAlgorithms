@@ -13,6 +13,20 @@ public class Chromosome extends BitSet {
         bitsNr = nBits;
     }
 
+    public static Chromosome generateNewChromosomeFromInt(int value, int size) {
+        Chromosome bits = new Chromosome(size);
+        int index = 0;
+        while (value != 0L) {
+            if (value % 2L != 0) {
+                bits.set(index);
+            }
+            ++index;
+            value = value >>> 1;
+        }
+
+        return bits;
+    }
+
     public static Chromosome generateNewChromosome(int size) {
         Chromosome output = new Chromosome(size);
         for (int i = 0; i < output.bitsNr(); i++) {

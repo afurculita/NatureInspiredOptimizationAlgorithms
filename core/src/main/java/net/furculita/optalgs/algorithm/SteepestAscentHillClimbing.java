@@ -15,31 +15,40 @@ import java.util.List;
  * http://www.cs.stir.ac.uk/~goc/papers/PPSN10FirstImprLON.pdf
  */
 public class SteepestAscentHillClimbing extends Algorithm {
-    @Override
-    public StateResult solve(Problem problem) {
-        StateResult stateResult = new StateResult();
+    private Individual firstIndividual = null;
 
-        Individual currentBest = Individual.generateNewIndividual(problem);
-        stateResult.add(currentBest);
-        stateResult.setBest(currentBest);
+    public SteepestAscentHillClimbing(Individual firstIndividual) {
+        this.firstIndividual = firstIndividual;
+    }
+
+    public SteepestAscentHillClimbing() {
+    }
+
+    @Override
+    public StateResult<Individual> solve(Problem problem) {
+        StateResult<Individual> state = new StateResult<>();
+
+        if (firstIndividual != null)
+            state.addBest(firstIndividual);
+        else
+            state.addBest(Individual.generateNewIndividual(problem));
 
         boolean newBestFound;
 
         do {
             newBestFound = false;
-            Individual neighbour = bestNeighbour(currentBest);
+            Individual neighbour = bestNeighbour(state.getBest());
 
-            stateResult.add(neighbour);
-
-            if (neighbour.betterThan(currentBest)) {
-                currentBest = neighbour;
-                stateResult.setBest(currentBest);
+            if (neighbour.betterThan(state.getBest())) {
+                state.addBest(neighbour);
 
                 newBestFound = true;
+            } else {
+                state.add(neighbour);
             }
         } while (newBestFound);
 
-        return stateResult;
+        return state;
     }
 
     private Individual bestNeighbour(Individual individual) {

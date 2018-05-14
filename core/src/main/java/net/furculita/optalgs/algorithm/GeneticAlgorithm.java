@@ -26,28 +26,25 @@ public class GeneticAlgorithm extends Algorithm {
     @Override
     public StateResult solve(Problem problem) {
         Population population = Population.potential(problem);
-        StateResult stateResult = new StateResult();
+        StateResult<Individual> state = new StateResult<>();
 
         int k = 0;
-        Individual currentBest = population.get(0);
-        stateResult.add(currentBest);
-        stateResult.setBest(currentBest);
+        state.addBest(population.get(0));
 
         do {
-            population = nextGeneration(problem, population, currentBest);
+            population = nextGeneration(problem, population, state.getBest());
 
             k++;
             Individual iterationBest = population.getFittest();
 
-            stateResult.add(iterationBest);
-
-            if (iterationBest.betterThan(currentBest)) {
-                currentBest = iterationBest;
-                stateResult.setBest(currentBest);
+            if (iterationBest.betterThan(state.getBest())) {
+                state.addBest(iterationBest);
+            } else {
+                state.add(iterationBest);
             }
         } while (k < MAX_ITERATIONS);
 
-        return stateResult;
+        return state;
     }
 
     protected Population nextGeneration(Problem problem, Population population, Individual currentBest) {

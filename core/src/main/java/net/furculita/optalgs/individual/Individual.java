@@ -74,6 +74,10 @@ public class Individual implements Comparable<Individual>, Item {
                         + Double.toString(getProblemResult());
     }
 
+    public String getSolution() {
+        return problem.solutionsToString(chromosomes);
+    }
+
     @Override
     public double getValue() {
         return getProblemResult();
@@ -98,6 +102,14 @@ public class Individual implements Comparable<Individual>, Item {
         for (int i = 0; i < problem.getDimension(); i++) {
             chromosomes.add(Chromosome.generateNewChromosome(problem.chromosomeSize()));
         }
+
+        return new Individual(chromosomes, problem);
+    }
+
+    public static Individual generateFromNumber(int value, Problem problem) {
+        List<Chromosome> chromosomes = new ArrayList<>();
+
+        chromosomes.add(Chromosome.generateNewChromosomeFromInt(value, problem.chromosomeSize()));
 
         return new Individual(chromosomes, problem);
     }

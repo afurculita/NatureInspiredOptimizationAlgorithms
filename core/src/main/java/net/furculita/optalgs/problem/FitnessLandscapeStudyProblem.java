@@ -6,11 +6,11 @@ import net.furculita.optalgs.individual.Individual;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class TestProblem extends Problem {
+public class FitnessLandscapeStudyProblem extends Problem {
     private static final int MIN = 0;
     private static final int MAX = 31;
 
-    public TestProblem() {
+    public FitnessLandscapeStudyProblem() {
         super(1, 10);
     }
 

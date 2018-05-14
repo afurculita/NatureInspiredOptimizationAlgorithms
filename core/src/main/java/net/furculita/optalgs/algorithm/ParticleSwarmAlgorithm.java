@@ -29,12 +29,10 @@ public class ParticleSwarmAlgorithm extends Algorithm {
 
     @Override
     public StateResult solve(Problem problem) {
-        StateResult stateResult = new StateResult();
+        StateResult<Particle> stateResult = new StateResult<>();
         Swarm swarm = new Swarm(problem, particlesNr);
 
-        Particle currentBest = swarm.getBest();
-        stateResult.add(currentBest);
-        stateResult.setBest(currentBest);
+        stateResult.addBest(swarm.getBest());
 
         for (int i = 0; i < ITERATIONS; i++) {
             swarm.evaluate();
@@ -43,11 +41,10 @@ public class ParticleSwarmAlgorithm extends Algorithm {
                 update(p, swarm);
             }
 
-            stateResult.add(swarm.getBest());
-
-            if (swarm.getBestFitness() < currentBest.getBestFitness()) {
-                currentBest = swarm.getBest();
-                stateResult.setBest(currentBest);
+            if (swarm.getBestFitness() < stateResult.getBest().getBestFitness()) {
+                stateResult.addBest(swarm.getBest());
+            } else {
+                stateResult.add(swarm.getBest());
             }
         }
 
