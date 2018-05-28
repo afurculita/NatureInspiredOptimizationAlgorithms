@@ -69,7 +69,7 @@ public class Particle implements Item {
 
     @Override
     public String toString() {
-        return "f(" + bestPosition + ") = " + bestFitness;
+        return "f = " + bestFitness;
     }
 
     @Override

@@ -9,6 +9,10 @@ public final class Randoms {
         return ((double) random.nextInt(100)) / 100;
     }
 
+    public static double next() {
+        return random.nextDouble();
+    }
+
     public static int integer(int max) {
         return random.nextInt(max);
     }

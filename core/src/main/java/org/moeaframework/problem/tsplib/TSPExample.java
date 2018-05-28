@@ -20,18 +20,6 @@
  */
 package org.moeaframework.problem.tsplib;
 
-import java.awt.BasicStroke;
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.io.File;
-import java.io.IOException;
-import java.util.Properties;
-
-import javax.swing.JFrame;
-import javax.swing.JScrollPane;
-import javax.swing.JSplitPane;
-import javax.swing.JTextArea;
-
 import org.moeaframework.core.Algorithm;
 import org.moeaframework.core.EvolutionaryAlgorithm;
 import org.moeaframework.core.Problem;
@@ -39,6 +27,12 @@ import org.moeaframework.core.Solution;
 import org.moeaframework.core.spi.AlgorithmFactory;
 import org.moeaframework.core.variable.EncodingUtils;
 import org.moeaframework.problem.AbstractProblem;
+
+import javax.swing.*;
+import java.awt.*;
+import java.io.File;
+import java.io.IOException;
+import java.util.Properties;
 
 /**
  * Demonstration of optimizing a TSP problem using the MOEA Framework
@@ -128,7 +122,7 @@ public class TSPExample {
 			heuristic.apply(tour);
 			fromTour(solution, tour);
 
-			solution.setObjective(0, tour.distance(instance));
+			solution.setObjective(0, tour.distance(instance.getDistanceTable()));
 		}
 
 		@Override
@@ -210,7 +204,7 @@ public class TSPExample {
 			Tour best = toTour(algorithm.getResult().get(0));
 			panel.displayTour(best, Color.RED, new BasicStroke(2.0f));
 			progress.insert(0, "Iteration " + iteration + ": " +
-					best.distance(instance) + "\n");
+					best.distance(instance.getDistanceTable()) + "\n");
 			progressText.setText(progress.toString());
 			
 			// repaint the TSP display

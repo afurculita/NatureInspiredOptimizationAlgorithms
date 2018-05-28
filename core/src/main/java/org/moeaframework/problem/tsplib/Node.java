@@ -36,6 +36,8 @@ public class Node {
 	 * The position of this node.
 	 */
 	private final double[] position;
+
+	private boolean virtual = false;
 	
 	/**
 	 * Constructs a new node with the specified identifier and position.
@@ -47,6 +49,17 @@ public class Node {
 		super();
 		this.id = id;
 		this.position = position;
+	}
+
+	public Node(int id, boolean virtual, double... position) {
+		super();
+		this.id = id;
+		this.virtual = virtual;
+		this.position = position;
+	}
+
+	public boolean isVirtual() {
+		return virtual;
 	}
 
 	/**

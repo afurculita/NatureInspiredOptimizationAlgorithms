@@ -17,6 +17,8 @@ public class ParticleSwarmAlgorithm extends Algorithm {
 
     private int particlesNr;
     private double inertia;
+    private double maxInertia;
+    private double minInertia = 0.01;
     private double cognitiveComponent;
     private double socialComponent;
     private final ParticleDistribution particleDistribution;
@@ -24,6 +26,7 @@ public class ParticleSwarmAlgorithm extends Algorithm {
     public ParticleSwarmAlgorithm(int particlesNr, double inertia, double cognitive, double social, ParticleDistribution particleDistribution) {
         this.particlesNr = particlesNr;
         this.inertia = inertia;
+        this.maxInertia = inertia;
         this.cognitiveComponent = cognitive;
         this.socialComponent = social;
         this.particleDistribution = particleDistribution;
@@ -55,9 +58,15 @@ public class ParticleSwarmAlgorithm extends Algorithm {
             } else {
                 stateResult.add(swarm.getBest());
             }
+
+            this.updateInertia(i);
         }
 
         return stateResult;
+    }
+
+    private void updateInertia(int currentIter) {
+        this.inertia = this.maxInertia - currentIter * (this.maxInertia - this.minInertia) / ITERATIONS;
     }
 
     private void updateParticleVelocities(Swarm swarm) {

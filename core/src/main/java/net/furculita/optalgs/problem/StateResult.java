@@ -12,7 +12,7 @@ public class StateResult<T extends Item> extends LinkedList<T> {
     private T best = null;
 
     public void addBest(T best) {
-//        System.out.print(best.toString());
+        System.out.println(best.toString());
         this.add(best);
 
         this.best = best;
