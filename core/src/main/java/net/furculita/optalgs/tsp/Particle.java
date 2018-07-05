@@ -12,40 +12,43 @@ import java.util.Random;
 
 public class Particle implements Item {
     private Vector position;
-    private Vector velocity;
     private Vector bestPosition;
+
+    private Vector velocity;
     private double bestFitness;
     private TSPProblem problem;
 
     private List<Pair<Integer, Integer>> swaps = new ArrayList<>();
-
-    private List<Tour> tours = new ArrayList<>();
+    private List<Tour> tourPosition = new ArrayList<>();
+    private List<Tour> bestTourPosition;
 
     Particle(Particle particle) {
         this.position = particle.position.copy();
-        this.velocity = particle.velocity.copy();
         this.bestPosition = particle.bestPosition.copy();
+
         this.bestFitness = particle.bestFitness;
+        this.velocity = particle.velocity.copy();
         this.problem = particle.problem;
-        this.tours = new ArrayList<>(particle.tours);
-        this.swaps = particle.swaps;
+
+        this.bestTourPosition = new ArrayList<>(particle.bestTourPosition);
+        this.tourPosition = new ArrayList<>(particle.tourPosition);
+        this.swaps = new ArrayList<>();
     }
 
     public Particle(TSPProblem problem) {
         this.problem = problem;
 
         position = problem.randomVector();
+        bestPosition = position;
 
         generateTours();
-
         generateSwapsList(problem.getDimension());
+        this.bestTourPosition = new ArrayList<>(this.tourPosition);
 
         velocity = new Vector(problem.getDimension());
         for (int i = 0; i < problem.getDimension(); i++) {
             velocity.add(i, Randoms.between(-6, 6));
         }
-
-        bestPosition = position;
         bestFitness = this.evaluate();
     }
 
@@ -71,41 +74,53 @@ public class Particle implements Item {
 
     private void generateTours() {
         for (int i = 0; i < problem.getSalesmanNr(); i++) {
-            tours.add(new Tour());
+            tourPosition.add(new Tour());
         }
 
         Vector visitedNodes = new Vector(position);
 
         while (!visitedNodes.isEmpty()) {
             int rNodeIndex = Randoms.integer(visitedNodes.size());
-            int rTourIndex = Randoms.integer(tours.size());
+            int rTourIndex = Randoms.integer(tourPosition.size());
 
-            tours.get(rTourIndex).add(visitedNodes.get(rNodeIndex).intValue());
+            tourPosition.get(rTourIndex).add(visitedNodes.get(rNodeIndex).intValue());
 
             visitedNodes.remove(rNodeIndex);
         }
     }
 
-    public void updatePersonalBest() {
+    public void updatePersonalBest(double bestFitness) {
         double fitness = this.evaluate();
-        if (problem.isBetterThan(bestFitness, fitness)) {
+        if (problem.isBetterThan(this.bestFitness, fitness) && fitness != bestFitness) {
             bestPosition = position.copy();
-            bestFitness = fitness;
-        }
 
-        for (Tour tour : this.tours) {
-            double l = tour.distance(this.problem.getDistanceTable());
+            this.bestTourPosition = new ArrayList<>(this.tourPosition);
 
-            if (l > tour.getBestLength()) {
-                tour.setBestLength(l);
-            }
+            this.bestFitness = fitness;
         }
     }
 
     public double evaluate() {
         double longestTourLength = 0;
+        double allToursLength = 0;
 
-        for (Tour tour : this.tours) {
+        for (Tour tour : this.tourPosition) {
+            double l = tour.distance(this.problem.getDistanceTable());
+
+            allToursLength += l;
+
+            if (l > longestTourLength) {
+                longestTourLength = l;
+            }
+        }
+
+        return (longestTourLength * this.problem.getSalesmanNr() + allToursLength);
+    }
+
+    private double getLongestTourLength() {
+        double longestTourLength = 0;
+
+        for (Tour tour : this.tourPosition) {
             double l = tour.distance(this.problem.getDistanceTable());
 
             if (l > longestTourLength) {
@@ -116,8 +131,22 @@ public class Particle implements Item {
         return longestTourLength;
     }
 
+    private double getLength() {
+        double len = 0;
+
+        for (Tour tour : this.tourPosition) {
+            len += tour.distance(this.problem.getDistanceTable());
+        }
+
+        return len;
+    }
+
     public Vector getPosition() {
         return position;
+    }
+
+    public List<Tour> getBestTourPosition() {
+        return bestTourPosition;
     }
 
     public Vector getVelocity() {
@@ -142,7 +171,7 @@ public class Particle implements Item {
 
     @Override
     public String toString() {
-        return "f(" + bestPosition + ") = " + bestFitness;
+        return "Max: " + (this.getLongestTourLength() + " - total: " + getLength());
     }
 
     @Override
@@ -156,5 +185,45 @@ public class Particle implements Item {
 
     public void setSwaps(List<Pair<Integer, Integer>> swaps) {
         this.swaps = swaps;
+    }
+
+    private Vector vectorizeTours(List<Tour> tours) {
+        Vector v = new Vector(this.problem.getDimension());
+
+        for (Tour tour : tours) {
+            for (int node : tour.toArray()) {
+                v.add((double) node);
+            }
+        }
+
+        return v;
+    }
+
+    public List<Pair<Integer, Integer>> computeSwapDifference(List<Tour> tours) {
+        return this.vectorizeTours(this.tourPosition).findSwapDifference(this.vectorizeTours(tours));
+    }
+
+    public void applySwap(Pair<Integer, Integer> swap) {
+        Vector v = this.vectorizeTours(this.tourPosition);
+
+        double temp = v.get(swap.getLeft());
+        v.set(swap.getLeft(), v.get(swap.getRight()));
+        v.set(swap.getRight(), temp);
+
+        List<Tour> newTours = new ArrayList<>();
+        int k = 0;
+
+        for (Tour tour : this.tourPosition) {
+            Tour t = new Tour();
+
+            int max = k + tour.size();
+            for (int i = k; i < max; i++) {
+                t.add(v.get(i).intValue());
+                k++;
+            }
+            newTours.add(t);
+        }
+
+        this.tourPosition = newTours;
     }
 }

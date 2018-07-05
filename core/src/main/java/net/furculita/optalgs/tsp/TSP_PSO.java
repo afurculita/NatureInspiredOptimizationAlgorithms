@@ -12,11 +12,11 @@ import java.util.List;
  */
 public class TSP_PSO {
     private static final double DEFAULT_OMEGA = 0.6;
-    private static final double DEFAULT_PHI_P = 1.5;
-    private static final double DEFAULT_PHI_G = 2;
+    private static final double DEFAULT_PHI_P = 0.5;
+    private static final double DEFAULT_PHI_G = 1;
     private static final int NUM_PARTICLES = 100;
     private static final int ITERATIONS = 1000;
-    private static final double MUTATION_RATE = 2;
+    private static final double MUTATION_RATE = 1;
 
     private int particlesNr;
     private double inertia;
@@ -49,7 +49,7 @@ public class TSP_PSO {
             updateParticles(swarm);
 
             for (Particle p : swarm) {
-                p.updatePersonalBest();
+                p.updatePersonalBest(swarm.getBestFitness());
                 swarm.updateBest(p);
             }
 
@@ -81,7 +81,7 @@ public class TSP_PSO {
     private void applySwapsStrategy1(Particle p, Swarm swarm) {
         List<Pair<Integer, Integer>> newSwaps = new ArrayList<>();
 
-        List<Pair<Integer, Integer>> b = swarm.getBestPosition().findSwapDifference(p.getPosition());
+        List<Pair<Integer, Integer>> b = p.computeSwapDifference(swarm.getBestTourPosition());
         double r2 = Randoms.next();
 
         for (Pair<Integer, Integer> aB : b) {
@@ -89,7 +89,7 @@ public class TSP_PSO {
                 newSwaps.add(aB);
         }
 
-        List<Pair<Integer, Integer>> a = p.getBestPosition().findSwapDifference(p.getPosition());
+        List<Pair<Integer, Integer>> a = p.computeSwapDifference(p.getBestTourPosition());
 
         double r1 = Randoms.next();
 
@@ -106,20 +106,28 @@ public class TSP_PSO {
 
         p.setSwaps(newSwaps);
 
-        Vector pos = p.getPosition().copy();
         double r3 = Randoms.next();
 
         for (Pair<Integer, Integer> swap : p.getSwaps()) {
-            if (Randoms.next() > r3 * MUTATION_RATE) {
-                continue;
+            if (Randoms.next() < r3 * MUTATION_RATE) {
+                p.applySwap(swap);
             }
-
-            double temp = pos.get(swap.getLeft());
-            pos.set(swap.getLeft(), pos.get(swap.getRight()));
-            pos.set(swap.getRight(), temp);
         }
 
-        p.setPosition(pos);
+//        Vector pos = p.getPosition().copy();
+//        double r3 = Randoms.next();
+//
+//        for (Pair<Integer, Integer> swap : p.getSwaps()) {
+//            if (Randoms.next() > r3 * MUTATION_RATE) {
+//                continue;
+//            }
+//
+//            double temp = pos.get(swap.getLeft());
+//            pos.set(swap.getLeft(), pos.get(swap.getRight()));
+//            pos.set(swap.getRight(), temp);
+//        }
+//
+//        p.setPosition(pos);
     }
 
     private void applyVelocityDependentSwapStrategy(Particle p, Swarm swarm) {

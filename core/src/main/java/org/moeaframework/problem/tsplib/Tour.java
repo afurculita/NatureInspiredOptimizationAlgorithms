@@ -20,6 +20,9 @@
  */
 package org.moeaframework.problem.tsplib;
 
+import org.apache.commons.lang3.tuple.ImmutablePair;
+import org.apache.commons.lang3.tuple.Pair;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.*;
@@ -44,6 +47,35 @@ public class Tour {
         super();
 
         nodes = new ArrayList<>();
+    }
+
+    public List<Pair<Integer, Integer>> findSwapDifference(Tour b) {
+        Tour clone = null;
+        try {
+            clone = (Tour) b.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+
+            return new ArrayList<>();
+        }
+        List<Pair<Integer, Integer>> list = new ArrayList<>();
+
+        for (int i = 0; i < this.nodes.size(); i++) {
+            if (this.nodes.get(i).equals(clone.nodes.get(i))) {
+                continue;
+            }
+
+            // find the same index as a[i] in temp[]
+            int j = clone.nodes.indexOf(this.nodes.get(i));
+
+            // swap
+            int temp2 = clone.nodes.get(i);
+            clone.nodes.set(i, clone.nodes.get(j));
+            clone.nodes.set(j, temp2);
+
+            list.add(new ImmutablePair<>(i, j));
+        }
+        return list;
     }
 
     public void setBestLength(double bestLength) {

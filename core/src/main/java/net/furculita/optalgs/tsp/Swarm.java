@@ -1,6 +1,9 @@
 package net.furculita.optalgs.tsp;
 
+import org.moeaframework.problem.tsplib.Tour;
+
 import java.util.ArrayList;
+import java.util.List;
 
 public class Swarm extends ArrayList<Particle> {
     private final TSPProblem problem;
@@ -21,6 +24,10 @@ public class Swarm extends ArrayList<Particle> {
 
     public Vector getBestPosition() {
         return this.getBest().getBestPosition();
+    }
+
+    public List<Tour> getBestTourPosition() {
+        return this.getBest().getBestTourPosition();
     }
 
     public double getBestFitness() {

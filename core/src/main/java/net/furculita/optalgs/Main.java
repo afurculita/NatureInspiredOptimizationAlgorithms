@@ -71,7 +71,7 @@ public class Main extends Application {
                     .solve(
                             new TSPProblem(
                                     new TSPInstance(new File("./data/tsp/eil51.tsp")),
-                                    1
+                                    7
                             )
                     );
         } catch (IOException e) {
